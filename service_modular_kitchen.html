@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Modular Kitchen - InsideScape Interiors</title>
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; background: #0f1624; color: #ddc774; margin: 0; }
+        .container { max-width: 1200px; margin: auto; padding: 20px; }
+        .service-header { text-align: center; margin-bottom: 40px; }
+        .service-header h1 { font-size: 2.8rem; color: #ffd700; }
+        .features-grid { 
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); 
+            gap: 25px; margin: 40px 0; 
+        }
+        .feature-card { 
+            background: rgba(28, 37, 79, 0.8); padding: 25px; border-radius: 12px; 
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3); 
+        }
+        .work-gallery { 
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); 
+            gap: 15px; margin: 40px 0; 
+        }
+        .work-gallery img { 
+            width: 100%; height: 200px; object-fit: cover; 
+            border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.4);
+        }
+        .back-btn { 
+            background: #ddc774; color: #122238; padding: 12px 25px; 
+            border-radius: 25px; font-weight: 600; display: inline-block; 
+            margin-bottom: 20px; 
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="index.html" class="back-btn">← Back to Home</a>
+        
+        <div class="service-header">
+            <h1>🍳 Modular Kitchen</h1>
+            <p>Modern, Functional & Beautiful Kitchen Solutions</p>
+        </div>
+        
+        <div class="features-grid">
+            <div class="feature-card">
+                <h3>✅ L-Shape Kitchen</h3>
+                <p>Perfect for small to medium spaces. Maximizes corner utilization with efficient workflow.</p>
+            </div>
+            <div class="feature-card">
+                <h3>✅ U-Shape Kitchen</h3>
+                <p>Ideal for larger families. Offers maximum storage and work triangle efficiency.</p>
+            </div>
+            <div class="feature-card">
+                <h3>✅ Island Kitchen</h3>
+                <p>Luxury option with central island. Perfect for entertaining and modern aesthetics.</p>
+            </div>
+            <div class="feature-card">
+                <h3>✅ Parallel Kitchen</h3>
+                <p>Space-saving design for compact homes. Galley style with excellent functionality.</p>
+            </div>
+        </div>
+        
+        <h2 style="text-align: center; color: #ffd700;">🏠 Our Work Gallery</h2>
+        <div class="work-gallery">
+            <img src="images/kitchen1.jpg" alt="Kitchen Project 1">
+            <img src="images/kitchen2.jpg" alt="Kitchen Project 2">
+            <img src="images/kitchen3.jpg" alt="Kitchen Project 3">
+            <img src="images/kitchen4.jpg" alt="Kitchen Project 4">
+        </div>
+        
+        <div style="text-align: center; margin: 40px 0; padding: 25px; background: rgba(28,37,79,0.5); border-radius: 12px;">
+            <h3>💰 Starting @ ₹1800/sqft</h3>
+            <a href="calculator.html" style="background: #ffd700; color: #122238; padding: 15px 35px; border-radius: 25px; font-weight: 700; font-size: 1.1rem; display: inline-block;">Get Quote Now</a>
+        </div>
+    </div>
+</body>
+</html>

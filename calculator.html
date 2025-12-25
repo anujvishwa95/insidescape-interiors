@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Cost Calculator - InsideScape Interiors</title>
+    <style>
+        body { 
+            font-family: 'Segoe UI', sans-serif; 
+            background: linear-gradient(135deg, #0f1624 0%, #1a2332 100%);
+            color: #ddc774; margin: 0; padding: 20px;
+        }
+        .container { max-width: 900px; margin: auto; }
+        .calc-header { text-align: center; margin-bottom: 40px; }
+        .calc-header h1 { font-size: 2.5rem; color: #ffd700; }
+        .calculator-form {
+            background: rgba(28, 37, 79, 0.9);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+        .form-group { margin-bottom: 25px; }
+        label { display: block; font-weight: 600; margin-bottom: 8px; font-size: 1.1rem; }
+        input, select { 
+            width: 100%; padding: 12px; font-size: 1rem; 
+            border: 2px solid #ddc774; border-radius: 8px;
+            background: rgba(255,255,255,0.1); color: #fff;
+        }
+        input:focus, select:focus { outline: none; border-color: #ffd700; }
+        .calculate-btn {
+            background: linear-gradient(45deg, #ddc774, #ffd700);
+            color: #122238; border: none; padding: 15px 40px;
+            font-size: 1.2rem; font-weight: 700; border-radius: 25px;
+            cursor: pointer; width: 100%; margin-top: 20px;
+        }
+        .calculate-btn:hover { transform: scale(1.02); }
+        #result { 
+            margin-top: 30px; padding: 25px; 
+            background: rgba(0, 170, 0, 0.2); border-radius: 10px;
+            text-align: center; font-size: 1.3rem; font-weight: 600;
+            border: 2px solid #00aa00;
+        }
+        .breakdown { margin-top: 20px; text-align: left; }
+        .breakdown-item { display: flex; justify-content: space-between; margin: 10px 0; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="calc-header">
+            <h1>🧮 Interior Cost Calculator</h1>
+            <p>Get instant estimate for your dream home interiors</p>
+        </div>
+        
+        <form class="calculator-form" id="calcForm">
+            <div class="form-group">
+                <label>Service Type:</label>
+                <select id="serviceType" required>
+                    <option value="">Select Service</option>
+                    <option value="kitchen" data-rate="1800">Modular Kitchen (₹1800/sqft)</option>
+                    <option value="wardrobe" data-rate="1400">Modular Wardrobe (₹1400/sqft)</option>
+                    <option value="lighting" data-rate="800">Lighting Design (₹800/sqft)</option>
+                    <option value="civil" data-rate="2200">Civil Work (₹2200/sqft)</option>
+                    <option value="ceiling" data-rate="1200">False Ceiling (₹1200/sqft)</option>
+                    <option value="floorplan" data-rate="900">2D/3D Floor Plan (₹900/sqft)</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label>Area Size (sq. ft.):</label>
+                <input type="number" id="areaSize" min="50" max="5000" placeholder="Enter area in sq. ft." required>
+            </div>
+            
+            <div class="form-group">
+                <label>Quality Level:</label>
+                <select id="quality" required>
+                    <option value="standard">Standard (Base Price)</option>
+                    <option value="premium">Premium (+25%)</option>
+                    <option value="luxury">Luxury (+50%)</option>
+                </select>
+            </div>
+            
+            <button type="button" class="calculate-btn" onclick="calculateEstimate()">Calculate Estimate</button>
+        </form>
+        
+        <div id="result" style="display: none;">
+            <h3>💰 Total Estimated Cost: <span id="totalCost">₹0</span></h3>
+            <div class="breakdown" id="costBreakdown"></div>
+        </div>
+    </div>
+
+    <script>
+        function calculateEstimate() {
+            const serviceType = document.getElementById('serviceType');
+            const areaSize = parseFloat(document.getElementById('areaSize').value);
+            const quality = document.getElementById('quality').value;
+            
+            if (!serviceType.value || isNaN(areaSize) || areaSize < 50) {
+                alert('Please fill all fields correctly');
+                return;
+            }
+            
+            const baseRate = parseFloat(serviceType.options[serviceType.selectedIndex].dataset.rate);
+            let qualityMultiplier = 1;
+            if (quality === 'premium') qualityMultiplier = 1.25;
+            else if (quality === 'luxury') qualityMultiplier = 1.5;
+            
+            const baseCost = baseRate * areaSize;
+            const finalCost = baseCost * qualityMultiplier;
+            const gst = finalCost * 0.18;
+            const total = finalCost + gst;
+            
+            document.getElementById('totalCost').textContent = '₹' + Math.round(total).toLocaleString();
+            
+            const breakdown = `
+                <div class="breakdown-item">
+                    <span>Base Cost (${areaSize} sqft × ₹${baseRate})</span>
+                    <span>₹${Math.round(baseCost).toLocaleString()}</span>
+                </div>
+                <div class="breakdown-item">
+                    <span>Quality (${quality.toUpperCase()})</span>
+                    <span>${((qualityMultiplier-1)*100).toFixed(0)}%</span>
+                </div>
+                <div class="breakdown-item">
+                    <span>GST (18%)</span>
+                    <span>₹${Math.round(gst).toLocaleString()}</span>
+                </div>
+            `;
+            document.getElementById('costBreakdown').innerHTML = breakdown;
+            document.getElementById('result').style.display = 'block';
+        }
+    </script>
+</body>
+</html>

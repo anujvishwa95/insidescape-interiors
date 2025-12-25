@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Portfolio - InsideScape Interiors</title>
+    <style>
+        body { 
+            font-family: 'Segoe UI', sans-serif; 
+            background: linear-gradient(135deg, #0f1624 0%, #1a2332 100%);
+            color: #ddc774; margin: 0; padding: 20px;
+        }
+        .container { max-width: 1200px; margin: auto; }
+        .portfolio-header { text-align: center; margin-bottom: 50px; }
+        .portfolio-header h1 { font-size: 2.8rem; color: #ffd700; margin-bottom: 10px; }
+        .stats { display: flex; justify-content: center; gap: 40px; margin-top: 20px; }
+        .stat { text-align: center; }
+        .stat-number { font-size: 2.5rem; color: #ffd700; font-weight: 700; }
+        
+        /* Folder Grid */
+        .folder-grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
+            gap: 25px; margin: 50px 0; 
+        }
+        .folder-card { 
+            background: rgba(28, 37, 79, 0.9); 
+            border-radius: 15px; 
+            overflow: hidden; 
+            cursor: pointer; 
+            transition: all 0.4s ease;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        .folder-card:hover { 
+            transform: translateY(-10px) scale(1.02); 
+            box-shadow: 0 20px 40px rgba(255,215,0,0.3);
+        }
+        .folder-image { 
+            height: 200px; 
+            background: linear-gradient(45deg, #ddc774, #ffd700); 
+            display: flex; align-items: center; justify-content: center;
+            font-size: 4rem; position: relative; overflow: hidden;
+        }
+        .folder-overlay {
+            position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.7); display: flex; align-items: center;
+            justify-content: center; opacity: 0; transition: 0.3s;
+        }
+        .folder-card:hover .folder-overlay { opacity: 1; }
+        .folder-content { padding: 25px; }
+        .folder-title { font-size: 1.5rem; font-weight: 700; margin-bottom: 10px; }
+        .folder-stats { font-size: 0.9rem; color: #aaa; }
+        
+        /* Modal for Project Details */
+        .modal { 
+            display: none; position: fixed; z-index: 1000; left: 0; top: 0;
+            width: 100%; height: 100%; background: rgba(0,0,0,0.9); 
+        }
+        .modal-content { 
+            background: #1c254f; margin: 5% auto; padding: 0; 
+            width: 90%; max-width: 1000px; border-radius: 15px; 
+            max-height: 80vh; overflow-y: auto;
+        }
+        .close { color: #ffd700; float: right; font-size: 35px; font-weight: bold; cursor: pointer; padding: 15px; }
+        .project-gallery { 
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); 
+            gap: 15px; padding: 20px; 
+        }
+        .project-gallery img { width: 100%; height: 200px; object-fit: cover; border-radius: 10px; }
+        .project-details { padding: 30px; }
+        
+        @media (max-width: 768px) {
+            .stats { flex-direction: column; gap: 20px; }
+            .folder-grid { grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="portfolio-header">
+            <h1>🏆 Our Portfolio</h1>
+            <p>Quality work delivered across Mumbai & surrounding areas</p>
+            <div class="stats">
+                <div class="stat">
+                    <div class="stat-number">150+</div>
+                    <div>Projects Completed</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-number">98%</div>
+                    <div>Client Satisfaction</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-number">5+</div>
+                    <div>Years Experience</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="folder-grid">
+            <div class="folder-card" onclick="openProject('bedroom')">
+                <div class="folder-image">
+                    🛏️
+                    <div class="folder-overlay">
+                        <span style="color: white; font-size: 1.5rem;">View Projects</span>
+                    </div>
+                </div>
+                <div class="folder-content">
+                    <div class="folder-title">Bedroom</div>
+                    <div class="folder-stats">12 Projects | Avg Budget ₹8.5L</div>
+                </div>
+            </div>
+            
+            <div class="folder-card" onclick="openProject('tv-unit')">
+                <div class="folder-image">📺</div>
+                <div class="folder-content">
+                    <div class="folder-title">TV Unit</div>
+                    <div class="folder-stats">18 Projects | Avg Budget ₹2.1L</div>
+                </div>
+            </div>
+            
+            <div class="folder-card" onclick="openProject('wardrobe')">
+                <div class="folder-image">👗</div>
+                <div class="folder-content">
+                    <div class="folder-title">Wardrobe</div>
+                    <div class="folder-stats">25 Projects | Avg Budget ₹4.2L</div>
+                </div>
+            </div>
+            
+            <div class="folder-card" onclick="openProject('kitchen')">
+                <div class="folder-image">🍳</div>
+                <div class="folder-content">
+                    <div class="folder-title">Kitchen</div>
+                    <div class="folder-stats">22 Projects | Avg Budget ₹12.5L</div>
+                </div>
+            </div>
+            
+            <div class="folder-card" onclick="openProject('safety-door')">
+                <div class="folder-image">🚪</div>
+                <div class="folder-content">
+                    <div class="folder-title">Safety Door</div>
+                    <div class="folder-stats">15 Projects | Avg Budget ₹1.8L</div>
+                </div>
+            </div>
+            
+            <div class="folder-card" onclick="openProject('living-room')">
+                <div class="folder-image">🛋️</div>
+                <div class="folder-content">
+                    <div class="folder-title">Living Room</div>
+                    <div class="folder-stats">20 Projects | Avg Budget ₹6.8L</div>
+                </div>
+            </div>
+            
+            <div class="folder-card" onclick="openProject('study-table')">
+                <div class="folder-image">📚</div>
+                <div class="folder-content">
+                    <div class="folder-title">Study Table</div>
+                    <div class="folder-stats">10 Projects | Avg Budget ₹1.2L</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Project Modal -->
+    <div id="projectModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <div id="modalBody">
+                <!-- Dynamic content loaded here -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const projects = {
+            bedroom: {
+                title: "Bedroom Projects",
+                projects: 12,
+                budget: "₹8.5L avg",
+                images: ["images/bedroom1.jpg", "images/bedroom2.jpg", "images/bedroom3.jpg", "images/bedroom4.jpg"]
+            },
+            'tv-unit': {
+                title: "TV Unit Projects", 
+                projects: 18,
+                budget: "₹2.1L avg",
+                images: ["images/tv1.jpg", "images/tv2.jpg", "images/tv3.jpg"]
+            },
+            wardrobe: {
+                title: "Wardrobe Projects",
+                projects: 25,
+                budget: "₹4.2L avg", 
+                images: ["images/wardrobe1.jpg", "images/wardrobe2.jpg", "images/wardrobe3.jpg", "images/wardrobe4.jpg"]
+            },
+            kitchen: {
+                title: "Kitchen Projects",
+                projects: 22,
+                budget: "₹12.5L avg",
+                images: ["images/kitchen1.jpg", "images/kitchen2.jpg", "images/kitchen3.jpg", "images/kitchen4.jpg"]
+            }
+        };
+
+        function openProject(folder) {
+            const project = projects[folder] || projects.bedroom;
+            document.getElementById('modalBody').innerHTML = `
+                <div class="project-gallery">
+                    ${project.images.map(img => `<img src="${img}" alt="${folder} project" onerror="this.src='https://via.placeholder.com/300x200/1c254f/ddd?text=${folder.toUpperCase()}'">`).join('')}
+                </div>
+                <div class="project-details">
+                    <h2>${project.title}</h2>
+                    <p><strong>Total Projects:</strong> ${project.projects} | <strong>Avg Budget:</strong> ${project.budget}</p>
+                    <p>High-quality materials, custom designs, and timely delivery guaranteed.</p>
+                    <a href="calculator.html" style="background: #ffd700; color: #122238; padding: 15px 30px; border-radius: 25px; font-weight: 700; display: inline-block;">Get Your Quote</a>
+                </div>
+            `;
+            document.getElementById('projectModal').style.display = 'block';
+        }
+
+        function closeModal() {
+            document.getElementById('projectModal').style.display = 'none';
+        }
+
+        window.onclick = function(event) {
+            const modal = document.getElementById('projectModal');
+            if (event.target == modal) closeModal();
+        }
+    </script>
+</body>
+</html>

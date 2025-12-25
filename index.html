@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>InsideScape Interiors Pvt Ltd - Premium Interior Solutions</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, sans-serif;
+            background: #0f1624;
+            color: #ddc774;
+            line-height: 1.6;
+        }
+
+        /* TOP NAVIGATION */
+        .top-nav {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 1000;
+            background: rgba(18, 34, 56, 0.98);
+            padding: 8px 0;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.4);
+        }
+        .nav-container {
+            max-width: 1200px;
+            margin: auto;
+            padding: 0 20px;
+        }
+        .nav-menu {
+            list-style: none;
+            display: flex;
+            gap: 10px;
+            justify-content: flex-start;
+        }
+        .nav-item { position: relative; }
+        .nav-link {
+            display: block;
+            padding: 10px 18px;
+            color: #ddc774;
+            font-weight: 600;
+            border-radius: 20px;
+            font-size: 15px;
+            transition: 0.2s;
+        }
+        .nav-link:hover,
+        .nav-link.active {
+            background: rgba(221,199,116,0.18);
+            color: #ffd700;
+        }
+
+        /* DROPDOWN – ek column, fix width */
+        .dropdown {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 230px;
+            background: #1c254f;
+            border-radius: 0 0 12px 12px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(5px);
+            transition: all 0.2s ease;
+        }
+        .nav-item:hover .dropdown {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+        .dropdown-link {
+            display: block;
+            padding: 10px 16px;
+            font-size: 14px;
+            color: #f5e8b5;
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+            white-space: nowrap;
+        }
+        .dropdown-link:last-child { border-bottom: none; }
+        .dropdown-link:hover {
+            background: rgba(255,215,0,0.12);
+            color: #fff;
+        }
+
+        /* HERO – full screen, corner to corner */
+        .hero {
+            margin-top: 48px;
+            height: calc(100vh - 48px);
+            position: relative;
+            overflow: hidden;
+        }
+        .hero-slides {
+            position: absolute;
+            inset: 0;
+        }
+        .hero-slides img {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0;
+            transition: opacity 1.5s ease;
+        }
+        .hero-slides img.active { opacity: 1; }
+        .hero-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(
+                to bottom,
+                rgba(0,0,0,0.45),
+                rgba(0,0,0,0.7)
+            );
+        }
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: #fff;
+        }
+        .hero-content h1 {
+            font-size: 4rem;
+            font-weight: 800;
+            margin-bottom: 20px;
+            text-shadow: 0 0 20px rgba(0,0,0,0.8);
+        }
+        .hero-content p { font-size: 1.4rem; margin-bottom: 30px; }
+        .cta-btn {
+            background: linear-gradient(45deg, #ddc774, #ffd700);
+            color: #122238;
+            padding: 18px 40px;
+            font-size: 1.2rem;
+            font-weight: 700;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            transition: transform 0.3s ease;
+            box-shadow: 0 10px 30px rgba(221,199,116,0.4);
+        }
+        .cta-btn:hover { transform: scale(1.05); }
+
+        /* BRAND STRIP */
+        .brand-strip {
+            background: #122238;
+            padding: 14px 20px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.4);
+        }
+        .brand-inner {
+            max-width: 1200px;
+            margin: auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            color: #ffd700;
+            font-weight: 700;
+            font-size: 20px;
+        }
+        .brand-inner img {
+            height: 40px;
+            width: 40px;
+            object-fit: contain;
+        }
+
+        /* SERVICES */
+        .services-section {
+            padding: 70px 20px;
+            max-width: 1200px;
+            margin: auto;
+        }
+        .section-title {
+            text-align: center;
+            font-size: 3rem;
+            margin-bottom: 40px;
+            color: #ffd700;
+        }
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 25px;
+        }
+        .service-card {
+            background: rgba(28,37,79,0.8);
+            padding: 30px 25px;
+            border-radius: 18px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+            height: 100%;
+            color: #f5e8b5;
+        }
+        .service-card:hover {
+            transform: translateY(-10px);
+            border-color: #ffd700;
+            box-shadow: 0 20px 40px rgba(255,215,0,0.25);
+        }
+        .service-icon {
+            font-size: 3rem;
+            margin-bottom: 12px;
+            display: block;
+        }
+
+        /* TESTIMONIALS */
+        .testimonials-section {
+            padding: 70px 20px;
+            background: rgba(28,37,79,0.5);
+        }
+        .testimonial-grid {
+            max-width: 1200px;
+            margin: auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 25px;
+        }
+        .testimonial-card {
+            background: rgba(255,255,255,0.08);
+            padding: 30px;
+            border-radius: 18px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+        }
+        .stars { color: #ffd700; font-size: 1.4rem; margin-bottom: 12px; }
+
+        /* MAP */
+        .maps-section {
+            padding: 70px 20px;
+            max-width: 1200px;
+            margin: auto;
+            text-align: center;
+        }
+        #map {
+            width: 100%;
+            height: 380px;
+            border-radius: 20px;
+            border: none;
+            margin-top: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+        }
+
+        /* FIXED BUTTONS */
+        .fixed-buttons {
+            position: fixed;
+            right: 20px;
+            bottom: 20px;
+            z-index: 999;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .fixed-btn {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 18px rgba(0,0,0,0.4);
+        }
+        .whatsapp-btn { background: #25D366; color: #fff; }
+        .call-btn { background: #FF3B30; color: #fff; }
+        .fixed-btn:hover { transform: scale(1.1); }
+
+        /* FOOTER */
+        footer {
+            background: #122238;
+            padding: 40px 20px 20px;
+            text-align: center;
+        }
+        .footer-content { max-width: 1200px; margin: auto; }
+        .contact-info p { margin: 6px 0; }
+
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            .nav-menu { flex-wrap: wrap; gap: 4px; }
+            .nav-link { padding: 8px 10px; font-size: 13px; }
+            .hero-content h1 { font-size: 2.6rem; }
+            .section-title { font-size: 2.2rem; }
+            .services-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <!-- NAVBAR -->
+    <nav class="top-nav">
+        <div class="nav-container">
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="#home" class="nav-link active">🏠 Home</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#services" class="nav-link">Services ▾</a>
+                    <div class="dropdown">
+                        <a href="service_modular_kitchen.html" class="dropdown-link">🍳 Modular Kitchen</a>
+                        <a href="service_modular_wardrobe.html" class="dropdown-link">👗 Modular Wardrobe</a>
+                        <a href="service_lighting.html" class="dropdown-link">💡 Lighting</a>
+                        <a href="service_civil_work.html" class="dropdown-link">🏗️ Civil Work</a>
+                        <a href="service_false_ceiling.html" class="dropdown-link">✨ False Ceiling</a>
+                        <a href="service_floor_plan.html" class="dropdown-link">📐 Floor Plan 2D/3D</a>
+                    </div>
+                </li>
+                <li class="nav-item"><a href="portfolio.html" class="nav-link">Portfolio</a></li>
+                <li class="nav-item"><a href="calculator.html" class="nav-link">Calculator</a></li>
+                <li class="nav-item"><a href="#contact" class="nav-link">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- HERO -->
+    <section id="home" class="hero">
+        <div class="hero-slides">
+            <img src="images/slide1.jpg" alt="Interior 1" class="active">
+            <img src="images/slide2.jpg" alt="Interior 2">
+            <img src="images/slide3.jpg" alt="Interior 3">
+            <img src="images/slide4.jpg" alt="Interior 4">
+            <img src="images/slide5.jpg" alt="Interior 5">
+        </div>
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <h1>Make Your Dream Home True</h1>
+            <p>Premium Interior Design & Modular Solutions in Kalyan</p>
+            <a href="calculator.html" class="cta-btn">Get Free Quote Now</a>
+        </div>
+    </section>
+
+    <!-- BRAND STRIP -->
+    <section class="brand-strip">
+        <div class="brand-inner">
+            <img src="images/logo.png" alt="InsideScape Logo">
+            <span>InsideScape Interiors Pvt Ltd</span>
+        </div>
+    </section>
+
+    <!-- SERVICES -->
+    <section id="services" class="services-section">
+        <h2 class="section-title">Our Premium Services</h2>
+        <div class="services-grid">
+            <a href="service_modular_kitchen.html" class="service-card">
+                <span class="service-icon">🍳</span>
+                <h3>Modular Kitchen</h3>
+                <p>L-Shape, U-Shape, Island – complete kitchen solutions.</p>
+            </a>
+            <a href="service_modular_wardrobe.html" class="service-card">
+                <span class="service-icon">👗</span>
+                <h3>Modular Wardrobe</h3>
+                <p>Sliding & hinged wardrobes with smart storage.</p>
+            </a>
+            <a href="service_lighting.html" class="service-card">
+                <span class="service-icon">💡</span>
+                <h3>Lighting Design</h3>
+                <p>Spot, cove & ambient lighting concepts.</p>
+            </a>
+            <a href="service_civil_work.html" class="service-card">
+                <span class="service-icon">🏗️</span>
+                <h3>Civil Work</h3>
+                <p>Wall changes, tiling, plumbing & more.</p>
+            </a>
+            <a href="service_false_ceiling.html" class="service-card">
+                <span class="service-icon">✨</span>
+                <h3>False Ceiling</h3>
+                <p>Gypsum, POP and designer ceilings.</p>
+            </a>
+            <a href="service_floor_plan.html" class="service-card">
+                <span class="service-icon">📐</span>
+                <h3>Floor Plan 2D/3D</h3>
+                <p>Professional layouts & 3D visualizations.</p>
+            </a>
+        </div>
+    </section>
+
+    <!-- TESTIMONIALS -->
+    <section class="testimonials-section">
+        <h2 class="section-title">What Our Clients Say</h2>
+        <div class="testimonial-grid">
+            <div class="testimonial-card">
+                <div class="stars">⭐⭐⭐⭐⭐</div>
+                <p>"Amazing kitchen work! On time and within budget."</p>
+                <strong>- Rahul S., Kalyan</strong>
+            </div>
+            <div class="testimonial-card">
+                <div class="stars">⭐⭐⭐⭐⭐</div>
+                <p>"Wardrobe quality is excellent. Very professional team."</p>
+                <strong>- Priya M., Shahad</strong>
+            </div>
+            <div class="testimonial-card">
+                <div class="stars">⭐⭐⭐⭐⭐</div>
+                <p>"Complete home interior transformation. Highly recommended."</p>
+                <strong>- Amit K., Ulhasnagar</strong>
+            </div>
+        </div>
+    </section>
+
+    <!-- MAP -->
+    <section class="maps-section">
+        <h2 class="section-title">Visit Our Office</h2>
+        <p>Office No. 213, Sai World Legend, Near Shahad Station</p>
+        <iframe
+            id="map"
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3771.145553992!2d73.255!3d19.235!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMTnCsDE0JzM0LjAiTiA3M8KwMTUnMTguMCJF!5e0!3m2!1sen!2sin!4v1690000000000"
+            loading="lazy"
+            allowfullscreen>
+        </iframe>
+    </section>
+
+    <!-- FIXED ACTION BUTTONS -->
+    <div class="fixed-buttons">
+        <button class="fixed-btn whatsapp-btn" onclick="openWhatsApp()">💬</button>
+        <button class="fixed-btn call-btn" onclick="makeCall()">📞</button>
+    </div>
+
+    <!-- FOOTER -->
+    <footer id="contact">
+        <div class="footer-content">
+            <h2>InsideScape Interiors Pvt Ltd</h2>
+            <div class="contact-info">
+                <p><strong>📍 Address:</strong> Office No. 213, Sai World Legend, Near Shahad Station, Kalyan Murbad Road, Opp Century Rayon Company, Shahad, Ulhasnagar - 421001</p>
+                <p><strong>📱 Phone / WhatsApp:</strong> +91 7565893302</p>
+                <p><strong>🕒 Working Hours:</strong> 9AM - 8PM (Mon-Sat)</p>
+            </div>
+            <p>&copy; 2025 InsideScape Interiors Pvt Ltd. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <!-- SCRIPT -->
+    <script>
+        // HERO SLIDESHOW
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.hero-slides img');
+
+        function nextSlide() {
+            if (!slides.length) return;
+            slides[currentSlide].classList.remove('active');
+            currentSlide = (currentSlide + 1) % slides.length;
+            slides[currentSlide].classList.add('active');
+        }
+
+        if (slides.length) {
+            slides[0].classList.add('active');
+            setInterval(nextSlide, 5000);
+        }
+
+        // NAV ACTIVE
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', function () {
+                document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+
+        // SMOOTH SCROLL
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                const targetId = this.getAttribute('href');
+                if (targetId.length > 1) {
+                    e.preventDefault();
+                    const target = document.querySelector(targetId);
+                    if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+
+        // WHATSAPP & CALL
+        const phoneNumber = '917565893302'; // without +
+        function openWhatsApp() {
+            const msg = 'Hi, I want to discuss my interior project.';
+            window.open(`https://wa.me/${phoneNumber}?text=${encodeURIComponent(msg)}`, '_blank');
+        }
+        function makeCall() {
+            window.location.href = `tel:+${phoneNumber}`;
+        }
+    </script>
+</body>
+</html>
